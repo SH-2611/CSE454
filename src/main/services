@@ -1,0 +1,40 @@
+package com.example.demo.service;
+
+import com.example.demo.model.Contact;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
+@Service
+public class ContactService {
+
+    private List<Contact> contacts = new ArrayList<>();
+
+    public Contact addContact(Contact contact) {
+        contacts.add(contact);
+        return contact;
+    }
+
+    public Optional<Contact> getContact(Long id) {
+        return contacts.stream().filter(contact -> contact.getId().equals(id)).findFirst();
+    }
+
+    public List<Contact> getContacts() {
+        return contacts;
+    }
+
+    public Contact editContact(Long id, Contact updatedContact) {
+        return getContact(id).map(contact -> {
+            contact.setName(updatedContact.getName());
+            contact.setEmail(updatedContact.getEmail());
+            contact.setPhone(updatedContact.getPhone());
+            return contact;
+        }).orElse(null);
+    }
+
+    public boolean deleteContact(Long id) {
+        return contacts.removeIf(contact -> contact.getId().equals(id));
+    }
+}

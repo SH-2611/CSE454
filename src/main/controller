@@ -1,0 +1,42 @@
+package com.example.demo.controller;
+
+import com.example.demo.model.Contact;
+import com.example.demo.service.ContactService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Optional;
+
+@RestController
+@RequestMapping("/contacts")
+public class ContactController {
+
+    @Autowired
+    private ContactService contactService;
+
+    @PostMapping("/add")
+    public Contact addContact(@RequestBody Contact contact) {
+        return contactService.addContact(contact);
+    }
+
+    @GetMapping("/{id}")
+    public Optional<Contact> getContact(@PathVariable Long id) {
+        return contactService.getContact(id);
+    }
+
+    @GetMapping("/")
+    public List<Contact> getContacts() {
+        return contactService.getContacts();
+    }
+
+    @PutMapping("/edit/{id}")
+    public Contact editContact(@PathVariable Long id, @RequestBody Contact updatedContact) {
+        return contactService.editContact(id, updatedContact);
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public boolean deleteContact(@PathVariable Long id) {
+        return contactService.deleteContact(id);
+    }
+}
